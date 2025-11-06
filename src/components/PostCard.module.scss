@@ -1,0 +1,110 @@
+@import '../assets/_variables';
+.postCard {
+    @include post-card-base-style; 
+    width: 300px;
+
+    h3 {
+        margin-top: 0;
+        @include font-setup(1.2rem, 600);
+    }
+
+    p {
+        @include font-setup(1rem, 400, $color-text-secondary);
+    }
+
+    .cardFooter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+
+        .likesCount {
+            @include font-setup(1rem);
+        }
+        
+        .commentsCount {
+            @include font-setup(0.9em, 500, #555);
+        }
+    }
+
+    .cardActions {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+
+    .likeButton {
+        padding: $spacing-unit 1.5 * $spacing-unit;
+        border: none;
+        border-radius: $border-radius-small;
+        background-color: $color-primary;
+        color: $color-white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: darken($color-primary, 10%);
+        }
+    }
+    
+    .commentsButton {
+        padding: $spacing-unit 1.5 * $spacing-unit;
+        border: 1px solid $color-info;
+        border-radius: $border-radius-small;
+        background-color: $color-info;
+        color: $color-white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &:hover {
+            background-color: darken($color-info, 10%);
+        }
+    }
+
+    &.liked { 
+        border-color: $color-primary;
+        box-shadow: $box-shadow-active;
+        
+        .likeButton { // 🎯 Нестинг
+            background-color: $color-secondary;
+            
+            &:hover {
+                background-color: darken($color-secondary, 10%);
+            }
+        }
+    }
+
+    .commentsSection {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px dashed #ccc; 
+
+        h4 {
+            @include font-setup(1.1rem, 600);
+            color: $color-text-main;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: $color-background-light;
+            border-left: 4px solid $color-primary;
+            padding: $spacing-unit 1.5 * $spacing-unit;
+            margin-bottom: $spacing-unit;
+            @include font-setup(0.9em);
+        }
+    }
+    
+    @media (max-width: $breakpoint-tablet) {
+        width: 95%; 
+        margin: $spacing-unit auto;
+    }
+}

@@ -1,11 +1,12 @@
 import React from 'react';
+import styles from './App.module.scss';
 import './App.css';
 import { postsData } from './assets/data.js';
 import PostCard from './components/PostCard.jsx';
 
 function App() {
    return (
-    <div className="app">
+    <div className={styles.app}>
       <h1>Лента постов</h1>
     <div className="posts-container">
         {postsData.map((post) => (
