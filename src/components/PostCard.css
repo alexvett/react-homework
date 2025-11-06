@@ -51,3 +51,72 @@
 .post-card.liked .like-button:hover {
   background-color: #808080;
 }
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.card-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.comments-count {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.comments-button {
+  padding: 8px 12px;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.comments-button:hover {
+  background-color: #e2e6ea;
+}
+
+.comments-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #ccc;
+}
+
+.comments-section h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.comments-section ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.comments-section li {
+  background-color: #f0f0f0;
+  border-left: 3px solid #007bff;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+
+.comments-section li strong {
+  color: #333;
+}
+
+.no-comments {
+  font-style: italic;
+  color: #888;
+}
