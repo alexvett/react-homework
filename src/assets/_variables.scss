@@ -31,3 +31,9 @@ $breakpoint-desktop: 1024px;
     transition: all 0.3s ease;
     background-color: $color-white;
 }
+
+%comment-base-style {
+    border-radius: $border-radius-small;
+    transition: all 0.3s ease;
+    cursor: default;
+}
