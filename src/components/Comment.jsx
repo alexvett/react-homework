@@ -1,21 +1,41 @@
 import React, { useState } from 'react';
-import styles from './CommentList.module.scss';
+import { useDispatch } from 'react-redux';
+import { updateComment } from '../redux/postsSlice';
+import styles from './CommentList.module.scss'; 
 
-const Comment = ({ comment, formatDate, updateComment }) => {
-    const [isEditing, setIsEditing] = useState(false);
+const Comment = ({ postId, comment, formatDate }) => {
+    const dispatch = useDispatch();
+    
     const [isLiked, setIsLiked] = useState(false);
 
     const handleLikeComment = () => {
-        const newLikes = isLiked ? comment.likes - 1 : comment.likes + 1;
-        setIsLiked(!isLiked);
-        updateComment(comment.id, { likes: newLikes });
+        const newIsLiked = !isLiked;
+        const newLikes = newIsLiked ? comment.likes + 1 : comment.likes - 1;
+        
+        setIsLiked(newIsLiked);
+        dispatch(updateComment({ 
+            postId: postId,
+            commentId: comment.id, 
+            updatedFields: { likes: newLikes } 
+        }));
     };
 
     const handleSaveEdit = (event) => {
         const newText = event.target.value;
-        updateComment(comment.id, { text: newText });
+        if (!newText || newText === comment.text) {
+            setIsEditing(false);
+            return;
+        }
+        
+        dispatch(updateComment({ 
+            postId: postId,
+            commentId: comment.id, 
+            updatedFields: { text: newText } 
+        }));
         setIsEditing(false);
     };
+    
+    const [isEditing, setIsEditing] = useState(false);
 
     return (
         <li className={styles.commentItem}>
@@ -30,9 +50,9 @@ const Comment = ({ comment, formatDate, updateComment }) => {
                 <textarea
                     className={styles.commentEditArea}
                     defaultValue={comment.text}
-                    onBlur={handleSaveEdit}
+                    onBlur={handleSaveEdit} 
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSaveEdit(e);
+                        if (e.key === 'Enter' && !e.shiftKey) handleSaveEdit(e);
                     }}
                     autoFocus
                 />

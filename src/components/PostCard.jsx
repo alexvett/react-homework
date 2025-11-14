@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePost } from '../redux/postsSlice';
 import classNames from 'classnames'; 
 import styles from './PostCard.module.scss'; 
-import CommentList from './CommentList.jsx';
+import CommentList from './CommentList.jsx'; 
 
-const PostCard = ({ postData, updatePost, formatDate }) => {
-    const [isEditingTitle, setIsEditingTitle] = useState(false);
-    const [isEditingText, setIsEditingText] = useState(false);
+const PostCard = ({ postId, formatDate }) => {
 
-    const [likes, setLikes] = useState(postData.currentLikes);
-    const [isLiked, setIsLiked] = useState(false);
+    const dispatch = useDispatch();
+    
+    const [isEditingTitle, setIsEditingTitle] = useState(false); 
+    const [isEditingText, setIsEditingText] = useState(false);  
+    const [isLiked, setIsLiked] = useState(false); 
     const [showComments, setShowComments] = useState(false);
 
-    const [comments, setComments] = useState(postData.comments);
+    const postData = useSelector(state => 
+        state.posts.items.find(post => post.id === postId)
+    );
+
+    if (!postData) return null;
 
     const handleLikeClick = () => {
-        const newLikes = isLiked ? likes - 1 : likes + 1;
-        setLikes(newLikes);
-        setIsLiked(!isLiked);
-        updatePost(postData.id, { currentLikes: newLikes });
+        const newIsLiked = !isLiked;
+        const newLikes = newIsLiked ? postData.currentLikes + 1 : postData.currentLikes - 1;
+        
+        setIsLiked(newIsLiked);
+        dispatch(updatePost({ 
+            postId: postData.id, 
+            updatedFields: { currentLikes: newLikes } 
+        }));
     };
 
     const handleToggleComments = () => {
@@ -27,25 +38,14 @@ const PostCard = ({ postData, updatePost, formatDate }) => {
     const handleSaveEdit = (field, event) => {
         const newValue = event.target.value;
         if (field === 'title') {
-            updatePost(postData.id, { title: newValue });
+            dispatch(updatePost({ postId: postData.id, updatedFields: { title: newValue } }));
             setIsEditingTitle(false);
         } else if (field === 'text') {
-            updatePost(postData.id, { text: newValue });
+            dispatch(updatePost({ postId: postData.id, updatedFields: { text: newValue } }));
             setIsEditingText(false);
         }
     };
     
-    const updateComment = (commentId, updatedFields) => {
-        setComments(prevComments => 
-            prevComments.map(comment => 
-                comment.id === commentId ? { ...comment, ...updatedFields } : comment
-            )
-        );
-        updatePost(postData.id, { comments: comments.map(c => 
-            c.id === commentId ? { ...c, ...updatedFields } : c
-        )});
-    };
-
     const cardClasses = classNames(styles.postCard, { [styles.liked]: isLiked });
 
     return (
@@ -54,7 +54,7 @@ const PostCard = ({ postData, updatePost, formatDate }) => {
                 <input
                     type="text"
                     defaultValue={postData.title}
-                    onBlur={(e) => handleSaveEdit('title', e)}
+                    onBlur={(e) => handleSaveEdit('title', e)} 
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') handleSaveEdit('title', e);
                     }}
@@ -69,9 +69,9 @@ const PostCard = ({ postData, updatePost, formatDate }) => {
             {isEditingText ? (
                 <textarea
                     defaultValue={postData.text}
-                    onBlur={(e) => handleSaveEdit('text', e)}
+                    onBlur={(e) => handleSaveEdit('text', e)} 
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSaveEdit('text', e);
+                        if (e.key === 'Enter' && !e.shiftKey) handleSaveEdit('text', e);
                     }}
                     autoFocus
                 />
@@ -82,11 +82,11 @@ const PostCard = ({ postData, updatePost, formatDate }) => {
             )}
 
             <div className={styles.cardFooter}>
-                <span className={styles.likesCount}>Лайки: {likes}</span>
+                <span className={styles.likesCount}>Лайки: {postData.currentLikes}</span>
                 <span className={styles.createdAt}>Создано: {formatDate(postData.createdAt)}</span>
-                <span className={styles.commentsCount}>Комментарии: {comments.length}</span>
+                <span className={styles.commentsCount}>Комментарии: {postData.comments.length}</span>
             </div>
-
+            
             <div className={styles.cardActions}>
                 <button onClick={handleLikeClick} className={styles.likeButton}>
                     {isLiked ? 'Отменить лайк' : 'Поставить лайк'}
@@ -99,10 +99,9 @@ const PostCard = ({ postData, updatePost, formatDate }) => {
             {showComments && (
                 <div className={styles.commentsSection}>
                     <CommentList 
-                        comments={comments} 
-                        setComments={setComments}
+                        postId={postData.id}
+                        comments={postData.comments} 
                         formatDate={formatDate}
-                        updateComment={updateComment}
                     />
                 </div>
             )}
