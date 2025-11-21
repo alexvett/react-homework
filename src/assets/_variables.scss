@@ -1,0 +1,39 @@
+$color-primary: #007bff;
+$color-secondary: #6c757d;
+$color-danger: #dc3545;
+$color-info: #17a2b8;
+$color-text-main: #333;
+$color-text-secondary: #666;
+$color-background-light: #f8f9fa;
+$color-white: #fff;
+
+$spacing-unit: 8px;
+$border-radius: 8px;
+$border-radius-small: 4px;
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.1);
+$box-shadow-active: 0 4px 8px rgba(0, 123, 255, 0.2);
+
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+@mixin font-setup($size, $weight: 400, $color: $color-text-main) {
+    font-size: $size;
+    font-weight: $weight;
+    color: $color;
+}
+
+@mixin post-card-base-style {
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    padding: 2 * $spacing-unit; // 16px
+    margin: 1.25 * $spacing-unit; // 10px
+    box-shadow: $box-shadow-base;
+    transition: all 0.3s ease;
+    background-color: $color-white;
+}
+
+%comment-base-style {
+    border-radius: $border-radius-small;
+    transition: all 0.3s ease;
+    cursor: default;
+}

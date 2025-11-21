@@ -1,0 +1,37 @@
+@import '../assets/_variables';
+
+.sortWrapper {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: $border-radius-small;
+    background-color: lighten($color-background-light, 2%);
+
+    .label {
+        font-weight: 600;
+        @include font-setup(1rem, 600);
+    }
+
+    button {
+        padding: 8px 12px;
+        border: 1px solid $color-secondary;
+        border-radius: $border-radius-small;
+        background-color: $color-white;
+        color: $color-secondary;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: lighten($color-secondary, 30%);
+        }
+
+        &.active {
+            background-color: $color-primary;
+            color: $color-white;
+            border-color: $color-primary;
+        }
+    }
+}

@@ -1,0 +1,136 @@
+.postCard {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+        color: #333;
+        margin-top: 0;
+        font-size: 1.5rem;
+        cursor: text;
+    }
+
+    p {
+        color: #555;
+        line-height: 1.6;
+        cursor: text;
+    }
+
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+}
+
+.listItem {
+    cursor: pointer;
+    box-shadow: none;
+    padding: 15px;
+
+    h3 {
+        font-size: 1.2rem;
+    }
+    
+    &:hover {
+        background-color: #f9f9f9;
+        transform: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.titleLink {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.readMore, .viewButton {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.viewButton {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.detailView {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.cardActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+
+    button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &.likeButton {
+            background-color: #ff4d4f;
+            color: white;
+        }
+
+        &.likeButton:hover {
+            background-color: #cc0000;
+        }
+        
+        &.commentsButton {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        &.commentsButton:hover {
+            background-color: #ddd;
+        }
+    }
+}
