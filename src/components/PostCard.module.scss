@@ -1,131 +1,136 @@
-@import '../assets/_variables';
 .postCard {
-    @include post-card-base-style; 
-    width: 300px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
 
     h3 {
+        color: #333;
         margin-top: 0;
-        @include font-setup(1.2rem, 600);
+        font-size: 1.5rem;
+        cursor: text;
     }
 
     p {
-        @include font-setup(1rem, 400, $color-text-secondary);
+        color: #555;
+        line-height: 1.6;
+        cursor: text;
     }
 
-    .cardFooter {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-
-        .createdAt {
-        @include font-setup(0.8em, 400, #999);
-        margin-left: auto; 
-        }
-
-        .likesCount {
-            @include font-setup(1rem);
-        }
-        
-        .commentsCount {
-            @include font-setup(0.9em, 500, #555);
-            margin-left: 10px;
-        }
-    }
-
-    input, textarea {
+    input[type="text"], textarea {
         width: 100%;
-        padding: 5px;
-        border: 1px solid $color-info;
-        border-radius: $border-radius-small;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
         box-sizing: border-box;
-        margin-bottom: 5px;
-        @include font-setup(1rem);
     }
 
     textarea {
-        min-height: 80px;
-        resize: vertical;
+        min-height: 100px;
     }
+}
 
-    .cardActions {
-        margin-top: 15px;
-        padding-top: 10px;
-        border-top: 1px solid #eee;
-        display: flex;
-        gap: 10px;
+.listItem {
+    cursor: pointer;
+    box-shadow: none;
+    padding: 15px;
+
+    h3 {
+        font-size: 1.2rem;
     }
+    
+    &:hover {
+        background-color: #f9f9f9;
+        transform: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+}
 
-    .likeButton {
-        padding: $spacing-unit 1.5 * $spacing-unit;
+.titleLink {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.readMore, .viewButton {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.viewButton {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.detailView {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.cardActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+
+    button {
+        padding: 8px 15px;
         border: none;
-        border-radius: $border-radius-small;
-        background-color: $color-primary;
-        color: $color-white;
-        cursor: pointer;
-        transition: background-color 0.2s;
-
-        &:hover {
-            background-color: darken($color-primary, 10%);
-        }
-    }
-    
-    .commentsButton {
-        padding: $spacing-unit 1.5 * $spacing-unit;
-        border: 1px solid $color-info;
-        border-radius: $border-radius-small;
-        background-color: $color-info;
-        color: $color-white;
+        border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.2s;
         
-        &:hover {
-            background-color: darken($color-info, 10%);
+        &.likeButton {
+            background-color: #ff4d4f;
+            color: white;
         }
-    }
 
-    &.liked { 
-        border-color: $color-primary;
-        box-shadow: $box-shadow-active;
+        &.likeButton:hover {
+            background-color: #cc0000;
+        }
         
-        .likeButton { // 🎯 Нестинг
-            background-color: $color-secondary;
-            
-            &:hover {
-                background-color: darken($color-secondary, 10%);
-            }
-        }
-    }
-
-    .commentsSection {
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px dashed #ccc; 
-
-        h4 {
-            @include font-setup(1.1rem, 600);
-            color: $color-text-main;
-            margin-top: 0;
-            margin-bottom: 10px;
+        &.commentsButton {
+            background-color: #f0f0f0;
+            color: #333;
         }
 
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
+        &.commentsButton:hover {
+            background-color: #ddd;
         }
-
-        li {
-            background-color: $color-background-light;
-            border-left: 4px solid $color-primary;
-            padding: $spacing-unit 1.5 * $spacing-unit;
-            margin-bottom: $spacing-unit;
-            @include font-setup(0.9em);
-        }
-    }
-    
-    @media (max-width: $breakpoint-tablet) {
-        width: 95%; 
-        margin: $spacing-unit auto;
     }
 }

@@ -12,7 +12,7 @@ const PostCard = ({ postId, formatDate }) => {
     const [isEditingTitle, setIsEditingTitle] = useState(false); 
     const [isEditingText, setIsEditingText] = useState(false);  
     const [isLiked, setIsLiked] = useState(false); 
-    const [showComments, setShowComments] = useState(false);
+    const [showComments, setShowComments] = useState(true); 
 
     const postData = useSelector(state => 
         state.posts.items.find(post => post.id === postId)
@@ -46,7 +46,7 @@ const PostCard = ({ postId, formatDate }) => {
         }
     };
     
-    const cardClasses = classNames(styles.postCard, { [styles.liked]: isLiked });
+    const cardClasses = classNames(styles.postCard, { [styles.liked]: isLiked, [styles.detailView]: true }); 
 
     return (
         <div className={cardClasses}>

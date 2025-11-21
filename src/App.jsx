@@ -1,20 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { store } from './redux/store';
-import { fetchPosts, sortPosts } from './redux/postsSlice';
+import { fetchPosts } from './redux/postsSlice';
 
 import styles from './App.module.scss';
-import PostCard from './components/PostCard.jsx'; 
-import SortButtons from './components/SortButtons.jsx';
 
-const AppContent = () => {
+import HomePage from './pages/HomePage.jsx'; 
+import ArticlesPage from './pages/ArticlesPage.jsx'; 
+import ArticlePage from './pages/ArticlePage.jsx'; 
+import NotFoundPage from './pages/NotFoundPage.jsx';
+
+const DateFormatterWrapper = () => {
+    const formatDate = (timestamp) => {
+        if (!timestamp) return 'N/A';
+        return new Date(timestamp).toLocaleDateString('ru-RU', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    return (
+        <Router>
+            <AppContent formatDate={formatDate} />
+        </Router>
+    )
+}
+
+const AppContent = ({ formatDate }) => {
   const dispatch = useDispatch();
   
-  const posts = useSelector((state) => state.posts.items);
   const status = useSelector((state) => state.posts.status);
-  const error = useSelector((state) => state.posts.error);
-  
-  const [sortOrder, setSortOrder] = useState('newest');
 
   useEffect(() => {
     if (status === 'idle') {
@@ -22,48 +41,28 @@ const AppContent = () => {
     }
   }, [status, dispatch]);
 
-  const formatDate = (timestamp) => {
-    return new Date(timestamp).toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-  };
-
-  const handleSortPosts = (criteria) => {
-    dispatch(sortPosts(criteria));
-    setSortOrder(criteria);
-  };
-
-  if (status === 'loading') {
-    return <div className={styles.app}><h1>Загрузка постов...</h1></div>;
-  }
-
-  if (status === 'failed') {
-    return <div className={styles.app}><h1>Ошибка загрузки: {error}</h1></div>;
-  }
 
   return (
     <div className={styles.app}>
-      <h1>Лента постов</h1>
-      
-      <SortButtons 
-        onSort={handleSortPosts} 
-        currentSort={sortOrder}
-        label="Сортировать посты:"
-      />
-      
-      <div className={styles.postsContainer}>
-        {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            postId={post.id}
-            formatDate={formatDate}
-          />
-        ))}
-      </div>
+        <nav className={styles.navbar}>
+            <Link to="/" className={styles.navLink}>Главная</Link>
+            <Link to="/articles" className={styles.navLink}>Статьи</Link>
+        </nav>
+
+        <div className={styles.content}>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                
+                <Route path="/articles" element={<ArticlesPage formatDate={formatDate} />} />
+                
+                <Route 
+                    path="/articles/:articleId" 
+                    element={<ArticlePage formatDate={formatDate} />} 
+                />
+                
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+        </div>
     </div>
   );
 };
@@ -71,7 +70,7 @@ const AppContent = () => {
 function App() {
     return (
         <Provider store={store}>
-            <AppContent />
+            <DateFormatterWrapper />
         </Provider>
     );
 }
